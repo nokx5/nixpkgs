@@ -28981,4 +28981,6 @@ in
   lc3tools = callPackage ../development/tools/lc3tools {};
 
   zktree = callPackage ../applications/misc/zktree {};
+
+  nokx = ../../nokx/default.nix {};
 }
