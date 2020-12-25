@@ -1,11 +1,8 @@
-{ pkgs ? import <nixpkgs> { }}:
+{ pkgs ? import <nixpkgs> {}, cudaSupport ? false, cudatoolkit ? null
+, nvidia_x11 ? null, fixDarwinDylibNames ? null }:
 
-with pkgs;
-
-# , stdenv ? pkgs.stdenv
-# , fetchFromGitHub ? pkgs.fetchFromGitHub, callPackage ? pkgs.callPackage
-# , cudaSupport ? false, cudatoolkit ? null, nvidia_x11 ? null
-# , fixDarwinDylibNames ? null 
+  with pkgs;
+  # with python38Packages;
 
 let
   projects_path = "https://github.com/nokx"; # can be local !
@@ -16,16 +13,16 @@ let
         projects_path + "/" + repo_name
       else
         projects_path + "/" + repo_name + ".git");
-    rev = builtins.toString revision;
+      rev = builtins.toString revision;
     });
+
+  
 
 in {
 
-  mysrc = fetchRepo "golden_project" null;
+  dummy = callPackage ./dummy { pkgs = pkgs; };
 
-
-  dummy = callPackage ./dummy { pkgs=pkgs; };
-
+  golden = callPackage ./golden {  fetchRepo=fetchRepo;};
   # fetchgitPrivate ? pkgs.fetchgitPrivate,
   # golden_cpp = callPackage ./golden_cpp {
   #   inherit stdenv;
