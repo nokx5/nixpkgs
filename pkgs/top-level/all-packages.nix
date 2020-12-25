@@ -28982,5 +28982,5 @@ in
 
   zktree = callPackage ../applications/misc/zktree {};
 
-  nokx = ../../nokx/default.nix {};
+  nokx = callPackage ../../nokx {};
 }
