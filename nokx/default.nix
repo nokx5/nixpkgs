@@ -1,8 +1,7 @@
-{ pkgs ? import <nixpkgs> {}, cudaSupport ? false, cudatoolkit ? null
+{ pkgs ? import <nixpkgs> { }, cudaSupport ? false, cudatoolkit ? null
 , nvidia_x11 ? null, fixDarwinDylibNames ? null }:
 
-  with pkgs;
-  # with python38Packages;
+with pkgs;
 
 let
   projects_path = "https://github.com/nokx"; # can be local !
@@ -16,13 +15,14 @@ let
       rev = builtins.toString revision;
     });
 
-  
+  shellHook =
+    "export PATH=/nix/var/nix/profiles/per-user/$USER/tools-dev/bin/:$PATH";
 
 in {
 
   dummy = callPackage ./dummy { pkgs = pkgs; };
 
-  golden = callPackage ./golden {  fetchRepo=fetchRepo;};
+  golden = callPackage ./golden { inherit fetchRepo shellHook; };
   # fetchgitPrivate ? pkgs.fetchgitPrivate,
   # golden_cpp = callPackage ./golden_cpp {
   #   inherit stdenv;
